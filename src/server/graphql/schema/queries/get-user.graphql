@@ -1,6 +1,17 @@
-query getUser($name: String) {
+query getUser($name: String, $categoryPaging: IDCursor) {
   user: getUser(name: $name) {
     id
     name
+    categories(paging: $categoryPaging) {
+      edges {
+        id
+        name
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
   }
 }

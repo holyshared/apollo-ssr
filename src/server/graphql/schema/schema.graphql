@@ -1,6 +1,28 @@
+input IDCursor {
+  first: Int
+  after: ID
+}
+
+type Gategory {
+  id: ID
+  name: String
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean
+}
+
+type GategoryPaging {
+  edges: [Gategory]
+  pageInfo: PageInfo
+}
+
 type User {
   id: ID
   name: String
+  categories(paging: IDCursor): GategoryPaging
 }
 
 type Query {

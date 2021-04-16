@@ -14,6 +14,30 @@ export type Scalars = {
   Float: number;
 };
 
+export type Gategory = {
+  __typename?: 'Gategory';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type GategoryPaging = {
+  __typename?: 'GategoryPaging';
+  edges?: Maybe<Array<Maybe<Gategory>>>;
+  pageInfo?: Maybe<PageInfo>;
+};
+
+export type IdCursor = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['ID']>;
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  startCursor?: Maybe<Scalars['String']>;
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage?: Maybe<Scalars['Boolean']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getUser?: Maybe<User>;
@@ -28,10 +52,17 @@ export type User = {
   __typename?: 'User';
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+  categories?: Maybe<GategoryPaging>;
+};
+
+
+export type UserCategoriesArgs = {
+  paging?: Maybe<IdCursor>;
 };
 
 export type GetUserQueryVariables = Exact<{
   name?: Maybe<Scalars['String']>;
+  categoryPaging?: Maybe<IdCursor>;
 }>;
 
 
@@ -40,15 +71,36 @@ export type GetUserQuery = (
   & { user?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
+    & { categories?: Maybe<(
+      { __typename?: 'GategoryPaging' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename?: 'Gategory' }
+        & Pick<Gategory, 'id' | 'name'>
+      )>>>, pageInfo?: Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage'>
+      )> }
+    )> }
   )> }
 );
 
 
 export const GetUserDocument = gql`
-    query getUser($name: String) {
+    query getUser($name: String, $categoryPaging: IDCursor) {
   user: getUser(name: $name) {
     id
     name
+    categories(paging: $categoryPaging) {
+      edges {
+        id
+        name
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
   }
 }
     `;
@@ -66,6 +118,7 @@ export const GetUserDocument = gql`
  * const { data, loading, error } = useGetUserQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      categoryPaging: // value for 'categoryPaging'
  *   },
  * });
  */
