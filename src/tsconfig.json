@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "typeRoots": ["@types"],
+    "lib": ["es2017", "dom"],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "../dist"
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "../node_modules"
+  ]
+}
