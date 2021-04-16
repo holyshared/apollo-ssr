@@ -24,7 +24,7 @@ app.use((req, res) => {
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
-      uri: 'http://localhost:3000',
+      uri: 'http://localhost:3000/graphql',
       credentials: 'same-origin',
       headers: {
         cookie: req.header('Cookie'),

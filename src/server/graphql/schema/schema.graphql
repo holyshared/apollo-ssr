@@ -4,5 +4,5 @@ type User {
 }
 
 type Query {
-  getUser(id: ID): User
+  getUser(name: String): User
 }
