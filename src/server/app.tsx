@@ -5,16 +5,20 @@ import {
   InMemoryCache
 } from '@apollo/client';
 import fetch from 'cross-fetch';
-import Express from 'express';
+import express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { getDataFromTree } from "@apollo/client/react/ssr";
+import { graphqlServer } from "./graphql";
 
 import { Layout } from './routes/Layout';
 import { Html } from '../components/html';
 
-const app = new Express();
+const app = express();
+
+graphqlServer.applyMiddleware({ app });
+
 app.use((req, res) => {
 
   const client = new ApolloClient({
