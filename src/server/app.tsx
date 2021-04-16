@@ -44,7 +44,7 @@ app.use((req, res) => {
   getDataFromTree(App).then((content) => {
     const initialState = client.extract();
     const html = <Html content={content} state={initialState} />;
-  
+
     res.status(200);
     res.send(`<!doctype html>\n${ReactDOM.renderToStaticMarkup(html)}`);
     res.end();
