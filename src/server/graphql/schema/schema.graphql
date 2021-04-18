@@ -1,6 +1,8 @@
 input IDCursor {
   first: Int
   after: ID
+  last: Int
+  before: ID
 }
 
 type Gategory {
@@ -12,6 +14,7 @@ type PageInfo {
   startCursor: String
   endCursor: String
   hasNextPage: Boolean
+  hasPreviousPage: Boolean
 }
 
 type GategoryPaging {

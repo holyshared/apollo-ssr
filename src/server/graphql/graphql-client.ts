@@ -29,6 +29,8 @@ export type GategoryPaging = {
 export type IdCursor = {
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['ID']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['ID']>;
 };
 
 export type PageInfo = {
@@ -36,6 +38,7 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
   endCursor?: Maybe<Scalars['String']>;
   hasNextPage?: Maybe<Scalars['Boolean']>;
+  hasPreviousPage?: Maybe<Scalars['Boolean']>;
 };
 
 export type Query = {

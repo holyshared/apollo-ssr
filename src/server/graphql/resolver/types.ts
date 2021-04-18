@@ -28,6 +28,8 @@ export type GategoryPaging = {
 export type IdCursor = {
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['ID']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['ID']>;
 };
 
 export type PageInfo = {
@@ -35,6 +37,7 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
   endCursor?: Maybe<Scalars['String']>;
   hasNextPage?: Maybe<Scalars['Boolean']>;
+  hasPreviousPage?: Maybe<Scalars['Boolean']>;
 };
 
 export type Query = {
@@ -179,6 +182,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
   startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  hasPreviousPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
