@@ -11,14 +11,14 @@ function CategoryList({ items }: { items: Gategory[] }) {
   </ul>);
 }
 
-function ShowMore({ after, first = 10 }: { first?: number, after?: string }) {
+function NextPage({ after, first = 10 }: { first?: number, after?: string }) {
   const params = { first };
   if (after) {
     Object.assign(params, { after });
   }
   const q = stringify(params);
   const to = `/categories?${q}`;
-  return (<Link to={to}>Show more</Link>)
+  return (<Link to={to}>Next page</Link>)
 }
 
 export function Categories() {
@@ -46,7 +46,7 @@ export function Categories() {
       {error ? (<div>{error.message}</div>) : null}
       <p>{data?.user?.name}</p>
       {categories.length > 0 ? (<CategoryList items={categories} />) : <p>empty</p>}
-      {pageInfo.hasNextPage ? (<ShowMore after={showMoreAfter} />) : null}
+      {pageInfo.hasNextPage ? (<NextPage after={showMoreAfter} />) : null}
     </>
   );
 }
