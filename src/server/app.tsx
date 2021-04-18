@@ -21,7 +21,7 @@ app.use(
   express.static("static", {})
 );
 app.use((req, _, next) => {
-  console.log("METHOD: %s %s", req.method, req.url);
+  console.log("%s %s", req.method, req.url);
   next();
 });
 
