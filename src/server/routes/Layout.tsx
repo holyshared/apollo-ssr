@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Top } from "../../components/pages/top";
 import { Categories } from "../../components/pages/categories";
+import { NotFound } from "../../components/pages/not_found";
 import { renderRoutes } from "react-router-config";
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     path: "/categories",
     exact: true,
     component: Categories,
+  },
+  {
+    path: "*",
+    exact: true,
+    component: NotFound,
   }
 ];
 
