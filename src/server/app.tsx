@@ -17,6 +17,14 @@ import { Html } from '../components/html';
 
 const app = express();
 
+app.use(
+  express.static("static", {})
+);
+app.use((req, _, next) => {
+  console.log("METHOD: %s %s", req.method, req.url);
+  next();
+});
+
 graphqlServer.applyMiddleware({ app });
 
 app.use((req, res) => {
@@ -50,7 +58,17 @@ app.use((req, res) => {
     const html = <Html content={content} state={initialState} />;
 
     res.status(200);
-    res.send(`<!doctype html>\n${ReactDOM.renderToStaticMarkup(html)}`);
+    res.send(`<!doctype html>\n
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="icon" href="/assets/favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon@2x.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png" />
+        <link rel="icon" type="image/png" href="/assets/favicon.png" />
+      </head>
+      ${ReactDOM.renderToStaticMarkup(html)}
+    `);
     res.end();
   });
 });
