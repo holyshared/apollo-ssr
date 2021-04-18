@@ -1,6 +1,9 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { GetUserDocument, GetUserQuery, GetUserQueryVariables, Gategory } from '../../server/graphql/graphql-client';
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
+import { stringify } from "query-string";
 
 function CategoryList({ items }: { items: Gategory[] }) {
   return (<ul>
@@ -8,18 +11,33 @@ function CategoryList({ items }: { items: Gategory[] }) {
   </ul>);
 }
 
+function ShowMore({ after, first = 10 }: { first?: number, after?: string }) {
+  const params = { first };
+  if (after) {
+    Object.assign(params, { after });
+  }
+  const q = stringify(params);
+  const to = `/categories?${q}`;
+  return (<Link to={to}>Show more</Link>)
+}
+
 export function Categories() {
+  const params = useParams<{ first?: string, after?: string }>();
+  const first = Number.isFinite(params.first)  ? Number(params.first) : 10;
+  const after = Number.isFinite(params.after)  ? params.after : null;
   const { data, loading, error } = useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, {
     variables: {
       name: 'guest',
       categoryPaging: {
-        first: 30,
-        after: "1"
+        first: Number(first),
+        after
       }
     },
   });
 
   const categories = data?.user?.categories.edges || [];
+  const pageInfo = data?.user?.categories.pageInfo || { hasNextPage: false, endCursor: null };
+  const showMoreAfter = pageInfo.endCursor ? pageInfo.endCursor : null;
   return (
     <>
       <h2>Categories</h2>
@@ -27,6 +45,7 @@ export function Categories() {
       {error ? (<div>{error.message}</div>) : null}
       <p>{data?.user?.name}</p>
       {categories.length > 0 ? (<CategoryList items={categories} />) : <p>empty</p>}
+      {pageInfo.hasNextPage ? (<ShowMore after={showMoreAfter} />) : null}
     </>
   );
 }
