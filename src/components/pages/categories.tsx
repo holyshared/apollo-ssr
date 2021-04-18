@@ -2,8 +2,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { GetUserDocument, GetUserQuery, GetUserQueryVariables, Gategory } from '../../server/graphql/graphql-client';
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
-import { stringify } from "query-string";
+import { useLocation } from "react-router";
+import { stringify, parse } from "query-string";
 
 function CategoryList({ items }: { items: Gategory[] }) {
   return (<ul>
@@ -22,14 +22,15 @@ function ShowMore({ after, first = 10 }: { first?: number, after?: string }) {
 }
 
 export function Categories() {
-  const params = useParams<{ first?: string, after?: string }>();
-  const first = Number.isFinite(params.first)  ? Number(params.first) : 10;
-  const after = Number.isFinite(params.after)  ? params.after : null;
+  const location = useLocation<{ first?: string, after?: string }>();
+  const params = parse(location.search) as { first?: string, after?: string };
+  const first = isNaN(Number(params.first)) ? Number(params.first) : 10;
+  const after = params.after ? params.after : null;
   const { data, loading, error } = useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, {
     variables: {
       name: 'guest',
       categoryPaging: {
-        first: Number(first),
+        first,
         after
       }
     },
