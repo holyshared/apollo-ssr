@@ -1,0 +1,6 @@
+query user($name: String!, $password: String!) {
+  viewer: user(name: $name, password: $password) {
+    id
+    name
+  }
+}

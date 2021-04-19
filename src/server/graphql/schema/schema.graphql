@@ -30,5 +30,6 @@ type User {
 
 type Query {
   viewer: User
+  user(name: String!, password: String!): User!
   getUser(name: String): User
 }
