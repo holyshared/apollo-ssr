@@ -1,4 +1,6 @@
 import React, { PropsWithChildren } from 'react';
+import { useQuery } from '@apollo/client';
+import { ViewerDocument, ViewerQuery, ViewerQueryVariables } from '../../server/graphql/graphql-client';
 
 interface Viewer {
   name: string
@@ -20,8 +22,13 @@ const guest = {
 export const AuthContext = React.createContext<GuestOrAuthor>(guest);
 
 export function AuthProvider(props: PropsWithChildren<{}>) {
+  const { data, error, loading } = useQuery<ViewerQuery, ViewerQueryVariables>(ViewerDocument, {
+  });
+  const viewer = data?.viewer ? (data?.viewer as Author) : guest;
   return (
-    <AuthContext.Provider value={guest}>
+    <AuthContext.Provider value={viewer}>
+      {error ? (<p>{error.message}</p>) : null}
+      {loading ? (<p>loading</p>) : null}
       {props.children}
     </AuthContext.Provider>
   );
