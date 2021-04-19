@@ -6,25 +6,17 @@ interface Viewer {
   name: string
 }
 
-interface Guest extends Viewer {
-}
-
 interface Author extends Viewer {
   id: string
 }
 
-type GuestOrAuthor = Guest | Author;
-
-const guest = {
-  name: 'guest'
-};
-
-export const AuthContext = React.createContext<GuestOrAuthor>(guest);
+export const AuthContext = React.createContext<Author>(null);
 
 export function AuthProvider(props: PropsWithChildren<{}>) {
   const { data, error, loading } = useQuery<ViewerQuery, ViewerQueryVariables>(ViewerDocument, {
+    fetchPolicy: 'network-only'
   });
-  const viewer = data?.viewer ? (data?.viewer as Author) : guest;
+  const viewer = data?.viewer ? (data?.viewer as Author) : null;
   return (
     <AuthContext.Provider value={viewer}>
       {error ? (<p>{error.message}</p>) : null}

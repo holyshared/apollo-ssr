@@ -36,14 +36,10 @@ export const viewer = async (
   args: {},
   ctx: GraphQLContext
 ) => {
-  const viewer = ctx.viewer || {
-    id: 1,
-    name: 'guest'
-  };
-  return viewer;
+  return ctx.viewer;
 };
 
-export const user = async (
+export const signIn = async (
   parent: any,
   args: {
     name: string;
@@ -52,12 +48,21 @@ export const user = async (
   ctx: GraphQLContext
 ) => {
   const user = {
-    id: 1,
+    id: 2,
     name: 'demo'
   };
   await ctx.signIn(user);
-
   return user;
+};
+
+export const signOut = async (
+  parent: any,
+  args: {},
+  ctx: GraphQLContext
+) => {
+  const viewer = ctx.viewer;
+  ctx.signOut();
+  return viewer;
 };
 
 export const getUser = async (
@@ -76,7 +81,10 @@ export const resolvers = {
   User,
   Query: {
     getUser,
-    user,
     viewer
+  },
+  Mutation: {
+    signIn,
+    signOut
   },
 };

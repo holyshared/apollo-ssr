@@ -1,7 +1,7 @@
 import {
   ApolloProvider,
   ApolloClient,
-  InMemoryCache
+  InMemoryCache,
 } from '@apollo/client';
 import { BrowserRouter } from "react-router-dom";
 import { Layout } from "../server/routes/Layout";

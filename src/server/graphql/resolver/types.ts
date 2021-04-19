@@ -32,6 +32,18 @@ export type IdCursor = {
   before?: Maybe<Scalars['ID']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  signIn: User;
+  signOut: User;
+};
+
+
+export type MutationSignInArgs = {
+  name: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type PageInfo = {
   __typename?: 'PageInfo';
   startCursor?: Maybe<Scalars['String']>;
@@ -43,14 +55,7 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   viewer?: Maybe<User>;
-  user: User;
   getUser?: Maybe<User>;
-};
-
-
-export type QueryUserArgs = {
-  name: Scalars['String'];
-  password: Scalars['String'];
 };
 
 
@@ -154,6 +159,7 @@ export type ResolversTypes = {
   GategoryPaging: ResolverTypeWrapper<GategoryPaging>;
   IDCursor: IdCursor;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Mutation: ResolverTypeWrapper<{}>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Query: ResolverTypeWrapper<{}>;
@@ -168,6 +174,7 @@ export type ResolversParentTypes = {
   GategoryPaging: GategoryPaging;
   IDCursor: IdCursor;
   Int: Scalars['Int'];
+  Mutation: {};
   PageInfo: PageInfo;
   Boolean: Scalars['Boolean'];
   Query: {};
@@ -186,6 +193,11 @@ export type GategoryPagingResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  signIn?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'name' | 'password'>>;
+  signOut?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+};
+
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -196,7 +208,6 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   viewer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'name' | 'password'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, never>>;
 };
 
@@ -210,6 +221,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = {
   Gategory?: GategoryResolvers<ContextType>;
   GategoryPaging?: GategoryPagingResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

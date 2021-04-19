@@ -12,7 +12,11 @@ export interface GraphQLContext {
 type LoginCallback<TUser> = (user: TUser, callback: (err?: Error) => void) => void;
 
 interface GraphQLContextArgs {
-  req: Request & { viewer?: {id:number, name:string}, logIn: (user: any, callback: LoginCallback<any>) => void; } & { session: { destroy: () => void } };
+  req: Request & {
+    viewer?: {id:number, name:string},
+    logIn: (user: any, callback: LoginCallback<any>) => void;
+    logOut: () => void;
+  } & { session: { destroy: () => void } };
   res: Response;
 };
 
@@ -38,6 +42,8 @@ export const graphqlServer = new ApolloServer({
         });
       },
       signOut() {
+        req.logOut();
+        req.session.destroy();
       }
     };
   }

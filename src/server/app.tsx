@@ -29,16 +29,16 @@ const sessionStore = new RedisStore({
   client: redis
 });
 
-passport.serializeUser((user: { id: number, name: string }, done: (err: any, user: {}) => void) =>
-  done(null, user.id),
-);
+passport.serializeUser((user: { id: number, name: string }, done: (err: any, user: {}) => void) => {
+  done(null, user.id);
+});
 
 passport.deserializeUser((id: number, done: (err: any, user: {}) => void) => {
-  done(null, { id: 1, name: 'demo' });
+  done(null, { id: 2, name: 'demo' });
 });
 
 passport.use(new Strategy((username: string, password: string, done: (error: any, user?: {} | boolean, options?: IVerifyOptions) => void) => {
-  return done(null, { id: 1, name: 'demo' });
+  return done(null, { id: 2, name: 'demo' });
 }));
 
 const app = express();
@@ -54,6 +54,11 @@ app.use((req, _, next) => {
 app.use(cookieParser('secret')); // FIXME env
 app.use(
   session({
+    cookie: {
+      maxAge: 1800000,
+      httpOnly: true,
+      secure: false
+    },
     store: sessionStore,
     name: "example",
     secret: "secret",
@@ -62,7 +67,9 @@ app.use(
   }),
 );
 
-app.use(passport.initialize());
+app.use(passport.initialize({
+  userProperty: 'viewer'
+}));
 app.use(passport.session());
 
 graphqlServer.applyMiddleware({ app });

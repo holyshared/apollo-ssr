@@ -30,6 +30,10 @@ type User {
 
 type Query {
   viewer: User
-  user(name: String!, password: String!): User!
   getUser(name: String): User
+}
+
+type Mutation {
+  signIn(name: String!, password: String!): User!
+  signOut: User!
 }
