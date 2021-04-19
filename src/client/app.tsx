@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Layout } from "../server/routes/Layout";
 import React from "react";
 import { hydrate } from "react-dom";
-import { AuthContext } from '../components/contexts/auth';
+import { AuthProvider } from '../components/contexts/auth';
 
 export const App = () => {
   const state = ('__APOLLO_STATE__' in window) ? ((window['__APOLLO_STATE__'] as unknown) as any): {};
@@ -18,11 +18,11 @@ export const App = () => {
   });
   return (
     <ApolloProvider client={client}>
-      <AuthContext.Provider value={{ name: 'guest' }}>
+      <AuthProvider>
         <BrowserRouter>
           <Layout />
         </BrowserRouter>
-      </AuthContext.Provider>
+      </AuthProvider>
     </ApolloProvider>
   );
 };

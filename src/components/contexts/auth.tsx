@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 interface Viewer {
   name: string
@@ -13,6 +13,16 @@ interface Author extends Viewer {
 
 type GuestOrAuthor = Guest | Author;
 
-export const AuthContext = React.createContext<GuestOrAuthor>({
+const guest = {
   name: 'guest'
-});
+};
+
+export const AuthContext = React.createContext<GuestOrAuthor>(guest);
+
+export function AuthProvider(props: PropsWithChildren<{}>) {
+  return (
+    <AuthContext.Provider value={guest}>
+      {props.children}
+    </AuthContext.Provider>
+  );
+}

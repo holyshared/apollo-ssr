@@ -14,7 +14,7 @@ import { graphqlServer } from "./graphql";
 
 import { Layout } from './routes/Layout';
 import { Html } from '../components/html';
-import { AuthContext } from '../components/contexts/auth';
+import { AuthProvider } from '../components/contexts/auth';
 
 const app = express();
 
@@ -47,11 +47,11 @@ app.use((req, res, next) => {
   // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={client}>
-      <AuthContext.Provider value={{ name: 'guest' }} >
+      <AuthProvider>
         <StaticRouter location={req.url} context={context}>
           <Layout />
         </StaticRouter>
-      </AuthContext.Provider>
+      </AuthProvider>
     </ApolloProvider>
   );
 
