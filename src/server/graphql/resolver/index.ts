@@ -29,7 +29,7 @@ const User = {
   }
 };
 
-export const getViewer = async (
+export const viewer = async (
   parent: any,
   args: {},
 ) => {
@@ -55,6 +55,6 @@ export const resolvers = {
   User,
   Query: {
     getUser,
-    getViewer
+    viewer
   },
 };

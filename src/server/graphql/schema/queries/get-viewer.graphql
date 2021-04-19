@@ -1,6 +1,0 @@
-query getViewer {
-  viewer: getViewer {
-    id
-    name
-  }
-}
