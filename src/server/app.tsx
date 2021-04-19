@@ -18,8 +18,28 @@ import { Html } from '../components/html';
 import { AuthProvider } from '../components/contexts/auth';
 import passport from 'passport';
 import connectRedis from 'connect-redis';
+import Redis from 'ioredis';
+import { Strategy, IVerifyOptions } from "passport-local";
+
+const redis = new Redis('redis://127.0.0.1:6379');
 
 const RedisStore = connectRedis(session);
+
+const sessionStore = new RedisStore({
+  client: redis
+});
+
+passport.serializeUser((user: { id: number, name: string }, done: (err: any, user: {}) => void) =>
+  done(null, user.id),
+);
+
+passport.deserializeUser((id: number, done: (err: any, user: {}) => void) => {
+  done(null, { id: 1, name: 'demo' });
+});
+
+passport.use(new Strategy((username: string, password: string, done: (error: any, user?: {} | boolean, options?: IVerifyOptions) => void) => {
+  return done(null, { id: 1, name: 'demo' });
+}));
 
 const app = express();
 
@@ -34,9 +54,7 @@ app.use((req, _, next) => {
 app.use(cookieParser('secret')); // FIXME env
 app.use(
   session({
-    store: RedisStore({
-      url: 'redis://127.0.0.1:6379'
-    }),
+    store: sessionStore,
     name: "example",
     secret: "secret",
     saveUninitialized: false,

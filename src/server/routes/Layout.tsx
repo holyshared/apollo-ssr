@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Top } from "../../components/pages/top";
 import { Categories } from "../../components/pages/categories";
+import { Dashboard } from "../../components/pages/dashboard";
 import { NotFound } from "../../components/pages/not_found";
 import { renderRoutes } from "react-router-config";
 import { AuthContext } from "../../components/contexts/auth";
@@ -11,6 +12,11 @@ const routes = [
     path: "/",
     exact: true,
     component: Top,
+  },
+  {
+    path: "/dashboard",
+    exact: true,
+    component: Dashboard,
   },
   {
     path: "/categories",
