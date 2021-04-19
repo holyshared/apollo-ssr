@@ -3,6 +3,7 @@
     "start": "node dist/app.js",
     "build:client": "webpack --config .webpack/client.js",
     "build:server": "webpack --config .webpack/server.js",
+    "build": "yarn build:client && yarn build:server",
     "generate": "graphql-codegen"
   },
   "dependencies": {
