@@ -42,7 +42,7 @@ app.use((req, res) => {
     cache: new InMemoryCache(),
   });
 
-  const context = {};
+  const context = { statusCode: 200 } as { statusCode: number };
 
   // The client-side App will instead use <BrowserRouter>
   const App = (
@@ -56,8 +56,9 @@ app.use((req, res) => {
   getDataFromTree(App).then((content) => {
     const initialState = client.extract();
     const html = <Html content={content} state={initialState} />;
+    const statusCode = context.statusCode;
 
-    res.status(200);
+    res.status(statusCode);
     res.send(`<!doctype html>\n
       <head>
         <meta charSet="utf-8" />

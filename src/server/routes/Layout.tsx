@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Top } from "../../components/pages/top";
 import { Categories } from "../../components/pages/categories";
 import { NotFound } from "../../components/pages/not_found";
@@ -26,10 +26,10 @@ const routes = [
 export const Layout = () => {
   return (
     <div>
-      <h1>a</h1>
+      <h1>Example</h1>
       <ul>
-        <li><Link to="/">top</Link></li>
-        <li><Link to="/categories">categories</Link></li>
+        <li><NavLink to="/">top</NavLink></li>
+        <li><NavLink to="/categories">categories</NavLink></li>
       </ul>
       {renderRoutes(routes)}
     </div>
