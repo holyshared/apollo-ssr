@@ -11,10 +11,15 @@ import ReactDOM from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { getDataFromTree } from "@apollo/client/react/ssr";
 import { graphqlServer } from "./graphql";
-
+import cookieParser from "cookie-parser";
+import session from "express-session";
 import { Layout } from './routes/Layout';
 import { Html } from '../components/html';
 import { AuthProvider } from '../components/contexts/auth';
+import passport from 'passport';
+import connectRedis from 'connect-redis';
+
+const RedisStore = connectRedis(session);
 
 const app = express();
 
@@ -25,6 +30,22 @@ app.use((req, _, next) => {
   console.log("%s %s", req.method, req.url);
   next();
 });
+
+app.use(cookieParser('secret')); // FIXME env
+app.use(
+  session({
+    store: RedisStore({
+      url: 'redis://127.0.0.1:6379'
+    }),
+    name: "example",
+    secret: "secret",
+    saveUninitialized: false,
+    resave: false
+  }),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 graphqlServer.applyMiddleware({ app });
 
