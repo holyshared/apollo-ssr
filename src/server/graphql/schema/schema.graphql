@@ -29,5 +29,6 @@ type User {
 }
 
 type Query {
+  getViewer: User
   getUser(name: String): User
 }

@@ -42,6 +42,7 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  getViewer?: Maybe<User>;
   getUser?: Maybe<User>;
 };
 
@@ -187,6 +188,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getViewer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, never>>;
 };
 

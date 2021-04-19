@@ -29,6 +29,16 @@ const User = {
   }
 };
 
+export const getViewer = async (
+  parent: any,
+  args: {},
+) => {
+  return {
+    id: 1,
+    name: 'guest'
+  };
+};
+
 export const getUser = async (
   parent: any,
   args: {
@@ -44,6 +54,7 @@ export const getUser = async (
 export const resolvers = {
   User,
   Query: {
-    getUser
+    getUser,
+    getViewer
   },
 };
