@@ -5,7 +5,7 @@ import {
   InMemoryCache
 } from '@apollo/client';
 import fetch from 'cross-fetch';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { StaticRouter } from 'react-router';
@@ -27,8 +27,7 @@ app.use((req, _, next) => {
 
 graphqlServer.applyMiddleware({ app });
 
-app.use((req, res) => {
-
+app.use((req, res, next) => {
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
@@ -71,7 +70,15 @@ app.use((req, res) => {
       ${ReactDOM.renderToStaticMarkup(html)}
     `);
     res.end();
-  });
+  }).catch(next);
+});
+
+app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
+  console.log(err.message);
+  console.log(err.stack);
+  res.status(503);
+  res.send(err.message);
+  res.end();
 });
 
 app.listen(3000, () => console.log(
