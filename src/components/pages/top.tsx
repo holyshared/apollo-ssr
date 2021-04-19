@@ -1,32 +1,12 @@
-import React, { useCallback, useContext } from 'react';
-import { useHistory } from 'react-router';
-import { useSignInMutation } from '../../server/graphql/graphql-client';
+import React, { useContext,  } from 'react';
 import { AuthContext } from '../contexts/auth';
 
 export function Top() {
-  const viewer = useContext(AuthContext);
-  const history = useHistory();
-  const [signIn, { loading }] = useSignInMutation({
-    onCompleted: () => {
-      history.push('/dashboard');
-    }
-  });
-  const onSignInClick = useCallback(
-    () => {
-      signIn({
-        variables: {
-          name: 'demo',
-          password: 'demo',
-        }
-      });
-    },
-    [signIn]
-  );
+  const { viewer, signIn } = useContext(AuthContext);
   return (
     <div>
       <h2>Top</h2>
-      {loading ? (<p>sign in ....</p>) : null}
-      {viewer ? null : (<input type="button" name="login" value="signIn" onClick={onSignInClick} />)}
+      {viewer ? null : (<input type="button" name="login" value="signIn" onClick={signIn} />)}
     </div>
   );
 }

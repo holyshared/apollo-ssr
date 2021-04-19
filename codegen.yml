@@ -3,6 +3,7 @@ schema:
   - ./src/server/graphql/schema/schema.graphql
 documents:
   - ./src/server/graphql/schema/queries/*.graphql
+  - ./src/server/graphql/schema/mutations/*.graphql
 generates:
   ./src/server/graphql/resolver/types.ts:
     plugins:

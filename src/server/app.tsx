@@ -13,9 +13,9 @@ import { getDataFromTree } from "@apollo/client/react/ssr";
 import { graphqlServer } from "./graphql";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import { Layout } from './routes/Layout';
+import { Layout } from './routes/layout';
+import { Auth } from './routes/auth';
 import { Html } from '../components/html';
-import { AuthProvider } from '../components/contexts/auth';
 import passport from 'passport';
 import connectRedis from 'connect-redis';
 import Redis from 'ioredis';
@@ -93,11 +93,11 @@ app.use((req, res, next) => {
   // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={client}>
-      <AuthProvider>
         <StaticRouter location={req.url} context={context}>
+        <Auth>
           <Layout />
+          </Auth>
         </StaticRouter>
-      </AuthProvider>
     </ApolloProvider>
   );
 
