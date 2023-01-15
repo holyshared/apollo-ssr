@@ -2,10 +2,10 @@ import React, { useCallback, PropsWithChildren } from "react";
 import { useQuery } from "@apollo/client";
 import {
   useSignInMutation,
-    useSignOutMutation,
-    ViewerDocument,
-    ViewerQuery,
-    ViewerQueryVariables,
+  useSignOutMutation,
+  ViewerDocument,
+  ViewerQuery,
+  ViewerQueryVariables,
 } from "../../server/graphql/graphql-client";
 
 interface Viewer {
@@ -75,7 +75,7 @@ export function AuthProvider(props: PropsWithChildren<AuthProviderProps>) {
   return (
     <AuthContext.Provider value={contextValue}>
       {error ? <p>{error.message}</p> : null}
-      {loading ? <p>loading</p> : null}
+      {loading ? <p>loading</p> : <p>loading</p>}
       {props.children}
     </AuthContext.Provider>
   );

@@ -35,7 +35,11 @@ const User = {
 };
 
 export const viewer = async (parent: any, args: {}, ctx: GraphQLContext) => {
-  return ctx.viewer;
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(ctx.viewer);
+    }, 1000);
+  });
 };
 
 export const signIn = async (
