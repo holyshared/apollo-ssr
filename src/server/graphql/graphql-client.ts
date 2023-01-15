@@ -168,7 +168,6 @@ export function useSignInMutation(
 ) {
     const options = {...defaultOptions, ...baseOptions}
     return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
-  );
 }
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
