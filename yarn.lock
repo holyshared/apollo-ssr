@@ -24,7 +24,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^3.7.4, @apollo/client@npm:latest":
+"@apollo/client@npm:^3.7.4":
   version: 3.7.4
   resolution: "@apollo/client@npm:3.7.4"
   dependencies:
@@ -80,15 +80,6 @@ __metadata:
     apollo-pbjs: bin/pbjs
     apollo-pbts: bin/pbts
   checksum: e01a33984ae06d6679f6796bb44e55260112ddd090ebc9f87d3f952c45153dd5df5c91ac4bf91ba60fb72ff8c1218059ce4bf8bb2eb08c5049c783de0098eec0
-  languageName: node
-  linkType: hard
-
-"@apollo/react-hooks@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@apollo/react-hooks@npm:4.0.0"
-  dependencies:
-    "@apollo/client": latest
-  checksum: 067744272e8396e328f7753d8954512e9bd3edbadb2c513692e44d34348cb2e0126d9aa7471634cd47a6b2f36d62dbdf9db912b56a16326ce25bfb47ee37471a
   languageName: node
   linkType: hard
 
@@ -2649,7 +2640,6 @@ __metadata:
   resolution: "apollo-ssr@workspace:."
   dependencies:
     "@apollo/client": ^3.7.4
-    "@apollo/react-hooks": ^4.0.0
     "@apollo/server": ^4.3.0
     "@graphql-codegen/cli": ^1.21.3
     "@graphql-codegen/introspection": ^1.18.1
