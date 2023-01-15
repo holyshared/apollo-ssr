@@ -7,7 +7,7 @@ import {
 import fetch from "cross-fetch";
 import express, { Request, Response, NextFunction } from "express";
 import React from "react";
-import ReactDOM from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router";
 import { getDataFromTree } from "@apollo/client/react/ssr";
 import { graphqlServer, context } from "./graphql";
@@ -144,35 +144,27 @@ const startServer = async () => {
     // The client-side App will instead use <BrowserRouter>
     const App = (
       <ApolloProvider client={client}>
-                <StaticRouter location={req.url} context={context}>
+        <StaticRouter location={req.url} context={context}>
           <Auth>
-                        <Layout />
+            <Layout />
           </Auth>
-                </StaticRouter>
+        </StaticRouter>
       </ApolloProvider>
     );
 
     getDataFromTree(App)
             .then((content) => {
                 const initialState = client.extract();
-        const html = <Html content={content} state={initialState} />;
                 const statusCode = context.statusCode;
 
-                res.status(statusCode);
-                res.send(`<!doctype html>\n
-        <head>
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width,initial-scale=1" />
-          <link rel="icon" href="/assets/favicon.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon@2x.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png" />
-          <link rel="icon" type="image/png" href="/assets/favicon.png" />
-        </head>
-        ${ReactDOM.renderToStaticMarkup(html)}
-      `);
-                res.end();
-            })
-            .catch(next);
+      const stream = renderToPipeableStream(<Html content={content} state={initialState} />, {
+        onShellReady() {
+          res.status(statusCode);
+          res.setHeader('Content-type', 'text/html');
+          stream.pipe(res);
+        }
+      });
+    }).catch(next);
   });
 
   app.use((err: Error, _: Request, res: Response, next: NextFunction) => {

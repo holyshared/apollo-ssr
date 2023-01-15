@@ -6,6 +6,12 @@ export function Html({ content, state }) {
   }
   return (
     <html>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <link rel="icon" href="/assets/favicon.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon@2x.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png" />
+      <link rel="icon" type="image/png" href="/assets/favicon.png" />
       <body>
         <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
         <script  dangerouslySetInnerHTML={dangerouslySetInnerHTML} />
