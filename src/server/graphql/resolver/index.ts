@@ -1,7 +1,7 @@
 import { GraphQLContext } from "..";
 
 // FIXME
-const mockCategories = (params : { first?: number, after?: string }) => {
+const mockCategories = (params: { first?: number; after?: string }) => {
   const { after, first } = params;
   const results = [];
   const id = after ? Number(after) : 0;
@@ -18,24 +18,23 @@ const mockCategories = (params : { first?: number, after?: string }) => {
 };
 
 const User = {
-  async categories(parent: any, args: { paging: { first?: number, after?: string } }) {
+  async categories(
+        parent: any,
+        args: { paging: { first?: number; after?: string } }
+    ) {
     const mock = mockCategories(args.paging);
     return {
       edges: mock,
       pageInfo: {
         startCursor: mock[0].id,
         endCursor: mock[mock.length - 1].id,
-        hasNextPage: true
-      }
+        hasNextPage: true,
+      },
     };
-  }
+  },
 };
 
-export const viewer = async (
-  parent: any,
-  args: {},
-  ctx: GraphQLContext
-) => {
+export const viewer = async (parent: any, args: {}, ctx: GraphQLContext) => {
   return ctx.viewer;
 };
 
@@ -49,17 +48,13 @@ export const signIn = async (
 ) => {
   const user = {
     id: 2,
-    name: 'demo'
+    name: "demo",
   };
   await ctx.signIn(user);
   return user;
 };
 
-export const signOut = async (
-  parent: any,
-  args: {},
-  ctx: GraphQLContext
-) => {
+export const signOut = async (parent: any, args: {}, ctx: GraphQLContext) => {
   const viewer = ctx.viewer;
   ctx.signOut();
   return viewer;
@@ -68,23 +63,23 @@ export const signOut = async (
 export const getUser = async (
   parent: any,
   args: {
-    name: string
-  },
+    name: string;
+  }
 ) => {
   return {
     id: 1,
-    name: args.name
-  }
+    name: args.name,
+  };
 };
 
 export const resolvers = {
   User,
   Query: {
     getUser,
-    viewer
+    viewer,
   },
   Mutation: {
     signIn,
-    signOut
+    signOut,
   },
 };

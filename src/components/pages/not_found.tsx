@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Status } from "./_wraper/status";
 import { RouteComponentProps } from "react-router-dom";
 

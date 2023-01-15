@@ -1,10 +1,16 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,137 +21,126 @@ export type Scalars = {
 };
 
 export type Gategory = {
-  __typename?: 'Gategory';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  __typename?: "Gategory";
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type GategoryPaging = {
-  __typename?: 'GategoryPaging';
+  __typename?: "GategoryPaging";
   edges?: Maybe<Array<Maybe<Gategory>>>;
   pageInfo?: Maybe<PageInfo>;
 };
 
 export type IdCursor = {
-  first?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['ID']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['ID']>;
+  first?: Maybe<Scalars["Int"]>;
+  after?: Maybe<Scalars["ID"]>;
+  last?: Maybe<Scalars["Int"]>;
+  before?: Maybe<Scalars["ID"]>;
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   signIn: User;
   signOut: User;
 };
 
-
 export type MutationSignInArgs = {
-  name: Scalars['String'];
-  password: Scalars['String'];
+  name: Scalars["String"];
+  password: Scalars["String"];
 };
 
 export type PageInfo = {
-  __typename?: 'PageInfo';
-  startCursor?: Maybe<Scalars['String']>;
-  endCursor?: Maybe<Scalars['String']>;
-  hasNextPage?: Maybe<Scalars['Boolean']>;
-  hasPreviousPage?: Maybe<Scalars['Boolean']>;
+  __typename?: "PageInfo";
+  startCursor?: Maybe<Scalars["String"]>;
+  endCursor?: Maybe<Scalars["String"]>;
+  hasNextPage?: Maybe<Scalars["Boolean"]>;
+  hasPreviousPage?: Maybe<Scalars["Boolean"]>;
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   viewer?: Maybe<User>;
   getUser?: Maybe<User>;
 };
 
-
 export type QueryGetUserArgs = {
-  name?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type User = {
-  __typename?: 'User';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  __typename?: "User";
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
   categories?: Maybe<GategoryPaging>;
 };
-
 
 export type UserCategoriesArgs = {
   paging?: Maybe<IdCursor>;
 };
 
 export type SignInMutationVariables = Exact<{
-  name: Scalars['String'];
-  password: Scalars['String'];
+  name: Scalars["String"];
+  password: Scalars["String"];
 }>;
 
+export type SignInMutation = { __typename?: "Mutation" } & {
+  viewer: { __typename?: "User" } & Pick<User, "id" | "name">;
+};
 
-export type SignInMutation = (
-  { __typename?: 'Mutation' }
-  & { viewer: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
-  ) }
-);
+export type SignOutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SignOutMutation = (
-  { __typename?: 'Mutation' }
-  & { viewer: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
-  ) }
-);
+export type SignOutMutation = { __typename?: "Mutation" } & {
+  viewer: { __typename?: "User" } & Pick<User, "id" | "name">;
+};
 
 export type GetUserQueryVariables = Exact<{
-  name?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars["String"]>;
   categoryPaging?: Maybe<IdCursor>;
 }>;
 
+export type GetUserQuery = { __typename?: "Query" } & {
+  user?: Maybe<
+    { __typename?: "User" } & Pick<User, "id" | "name"> & {
+        categories?: Maybe<
+          { __typename?: "GategoryPaging" } & {
+            edges?: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: "Gategory" } & Pick<Gategory, "id" | "name">
+                >
+              >
+            >;
+            pageInfo?: Maybe<
+              { __typename?: "PageInfo" } & Pick<
+                PageInfo,
+                "startCursor" | "endCursor" | "hasNextPage"
+              >
+            >;
+          }
+        >;
+      }
+  >;
+};
 
-export type GetUserQuery = (
-  { __typename?: 'Query' }
-  & { user?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
-    & { categories?: Maybe<(
-      { __typename?: 'GategoryPaging' }
-      & { edges?: Maybe<Array<Maybe<(
-        { __typename?: 'Gategory' }
-        & Pick<Gategory, 'id' | 'name'>
-      )>>>, pageInfo?: Maybe<(
-        { __typename?: 'PageInfo' }
-        & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage'>
-      )> }
-    )> }
-  )> }
-);
+export type ViewerQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ViewerQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ViewerQuery = (
-  { __typename?: 'Query' }
-  & { viewer?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
-  )> }
-);
-
+export type ViewerQuery = { __typename?: "Query" } & {
+  viewer?: Maybe<{ __typename?: "User" } & Pick<User, "id" | "name">>;
+};
 
 export const SignInDocument = gql`
-    mutation signIn($name: String!, $password: String!) {
-  viewer: signIn(name: $name, password: $password) {
-    id
-    name
+  mutation signIn($name: String!, $password: String!) {
+    viewer: signIn(name: $name, password: $password) {
+      id
+      name
+    }
   }
-}
-    `;
-export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMutationVariables>;
+`;
+export type SignInMutationFn = Apollo.MutationFunction<
+  SignInMutation,
+  SignInMutationVariables
+>;
 
 /**
  * __useSignInMutation__
@@ -165,22 +160,34 @@ export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMut
  *   },
  * });
  */
-export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
-      }
+export function useSignInMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignInMutation,
+    SignInMutationVariables
+  >
+) {
+    const options = {...defaultOptions, ...baseOptions}
+    return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
+  );
+}
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
-export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export type SignInMutationOptions = Apollo.BaseMutationOptions<
+  SignInMutation,
+  SignInMutationVariables
+>;
 export const SignOutDocument = gql`
-    mutation signOut {
-  viewer: signOut {
-    id
-    name
+  mutation signOut {
+    viewer: signOut {
+      id
+      name
+    }
   }
-}
-    `;
-export type SignOutMutationFn = Apollo.MutationFunction<SignOutMutation, SignOutMutationVariables>;
+`;
+export type SignOutMutationFn = Apollo.MutationFunction<
+  SignOutMutation,
+  SignOutMutationVariables
+>;
 
 /**
  * __useSignOutMutation__
@@ -198,32 +205,40 @@ export type SignOutMutationFn = Apollo.MutationFunction<SignOutMutation, SignOut
  *   },
  * });
  */
-export function useSignOutMutation(baseOptions?: Apollo.MutationHookOptions<SignOutMutation, SignOutMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignOutMutation, SignOutMutationVariables>(SignOutDocument, options);
-      }
+export function useSignOutMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignOutMutation,
+    SignOutMutationVariables
+  >
+) {
+    const options = {...defaultOptions, ...baseOptions}
+    return Apollo.useMutation<SignOutMutation, SignOutMutationVariables>(SignOutDocument, options);
+}
 export type SignOutMutationHookResult = ReturnType<typeof useSignOutMutation>;
 export type SignOutMutationResult = Apollo.MutationResult<SignOutMutation>;
-export type SignOutMutationOptions = Apollo.BaseMutationOptions<SignOutMutation, SignOutMutationVariables>;
+export type SignOutMutationOptions = Apollo.BaseMutationOptions<
+  SignOutMutation,
+  SignOutMutationVariables
+>;
 export const GetUserDocument = gql`
-    query getUser($name: String, $categoryPaging: IDCursor) {
-  user: getUser(name: $name) {
-    id
-    name
-    categories(paging: $categoryPaging) {
-      edges {
-        id
-        name
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
+  query getUser($name: String, $categoryPaging: IDCursor) {
+    user: getUser(name: $name) {
+      id
+      name
+      categories(paging: $categoryPaging) {
+        edges {
+          id
+          name
+        }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetUserQuery__
@@ -242,25 +257,32 @@ export const GetUserDocument = gql`
  *   },
  * });
  */
-export function useGetUserQuery(baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-      }
-export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-        }
+export function useGetUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>
+) {
+    const options = {...defaultOptions, ...baseOptions}
+    return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+}
+export function useGetUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>
+) {
+    const options = {...defaultOptions, ...baseOptions}
+    return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+}
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export type GetUserQueryResult = Apollo.QueryResult<
+  GetUserQuery,
+  GetUserQueryVariables
+>;
 export const ViewerDocument = gql`
-    query viewer {
-  viewer: viewer {
-    id
-    name
+  query viewer {
+    viewer: viewer {
+      id
+      name
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useViewerQuery__
@@ -277,14 +299,21 @@ export const ViewerDocument = gql`
  *   },
  * });
  */
-export function useViewerQuery(baseOptions?: Apollo.QueryHookOptions<ViewerQuery, ViewerQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ViewerQuery, ViewerQueryVariables>(ViewerDocument, options);
-      }
-export function useViewerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ViewerQuery, ViewerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ViewerQuery, ViewerQueryVariables>(ViewerDocument, options);
-        }
+export function useViewerQuery(
+  baseOptions?: Apollo.QueryHookOptions<ViewerQuery, ViewerQueryVariables>
+) {
+    const options = {...defaultOptions, ...baseOptions}
+    return Apollo.useQuery<ViewerQuery, ViewerQueryVariables>(ViewerDocument, options);
+}
+export function useViewerLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ViewerQuery, ViewerQueryVariables>
+) {
+    const options = {...defaultOptions, ...baseOptions}
+    return Apollo.useLazyQuery<ViewerQuery, ViewerQueryVariables>(ViewerDocument, options);
+}
 export type ViewerQueryHookResult = ReturnType<typeof useViewerQuery>;
 export type ViewerLazyQueryHookResult = ReturnType<typeof useViewerLazyQuery>;
-export type ViewerQueryResult = Apollo.QueryResult<ViewerQuery, ViewerQueryVariables>;
+export type ViewerQueryResult = Apollo.QueryResult<
+  ViewerQuery,
+  ViewerQueryVariables
+>;

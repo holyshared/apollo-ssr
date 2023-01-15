@@ -1,4 +1,4 @@
-import React, { useContext,  } from 'react';
+import React, { useContext } from "react";
 import { Top } from "../../components/pages/top";
 import { Categories } from "../../components/pages/categories";
 import { Dashboard } from "../../components/pages/dashboard";
@@ -27,22 +27,33 @@ const routes = [
     path: "*",
     exact: true,
     component: NotFound,
-  }
+  },
 ];
 
 export const Layout = () => {
   const { viewer, signOut } = useContext(AuthContext);
-  const username = viewer ? viewer.name : 'guest';
+  const username = viewer ? viewer.name : "guest";
   return (
     <div>
       <header>
         <h1>Example</h1>
         <p>{username}</p>
-        {viewer ? (<input type="button" name="signOut" value="Sign out" onClick={signOut} />) : null}
+        {viewer ? (
+                    <input
+                        type="button"
+                        name="signOut"
+                        value="Sign out"
+                        onClick={signOut}
+                    />
+                ) : null}
       </header>
       <ul>
-        <li><NavLink to="/">top</NavLink></li>
-        <li><NavLink to="/categories">categories</NavLink></li>
+        <li>
+                    <NavLink to="/">top</NavLink>
+                </li>
+        <li>
+                    <NavLink to="/categories">categories</NavLink>
+                </li>
       </ul>
       {renderRoutes(routes)}
     </div>
