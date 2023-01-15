@@ -1,0 +1,6 @@
+mutation signIn($name: String!, $password: String!) {
+  viewer: signIn(name: $name, password: $password) {
+    id
+    name
+  }
+}

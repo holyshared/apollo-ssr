@@ -11,9 +11,35 @@ import ReactDOM from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { getDataFromTree } from "@apollo/client/react/ssr";
 import { graphqlServer } from "./graphql";
-
-import { Layout } from './routes/Layout';
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import { Layout } from './routes/layout';
+import { Auth } from './routes/auth';
 import { Html } from '../components/html';
+import passport from 'passport';
+import connectRedis from 'connect-redis';
+import Redis from 'ioredis';
+import { Strategy, IVerifyOptions } from "passport-local";
+
+const redis = new Redis('redis://127.0.0.1:6379');
+
+const RedisStore = connectRedis(session);
+
+const sessionStore = new RedisStore({
+  client: redis
+});
+
+passport.serializeUser((user: { id: number, name: string }, done: (err: any, user: {}) => void) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id: number, done: (err: any, user: {}) => void) => {
+  done(null, { id: 2, name: 'demo' });
+});
+
+passport.use(new Strategy((username: string, password: string, done: (error: any, user?: {} | boolean, options?: IVerifyOptions) => void) => {
+  return done(null, { id: 2, name: 'demo' });
+}));
 
 const app = express();
 
@@ -24,6 +50,27 @@ app.use((req, _, next) => {
   console.log("%s %s", req.method, req.url);
   next();
 });
+
+app.use(cookieParser('secret')); // FIXME env
+app.use(
+  session({
+    cookie: {
+      maxAge: 1800000,
+      httpOnly: true,
+      secure: false
+    },
+    store: sessionStore,
+    name: "example",
+    secret: "secret",
+    saveUninitialized: false,
+    resave: false
+  }),
+);
+
+app.use(passport.initialize({
+  userProperty: 'viewer'
+}));
+app.use(passport.session());
 
 graphqlServer.applyMiddleware({ app });
 
@@ -46,9 +93,11 @@ app.use((req, res, next) => {
   // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={client}>
-      <StaticRouter location={req.url} context={context}>
-        <Layout />
-      </StaticRouter>
+        <StaticRouter location={req.url} context={context}>
+        <Auth>
+          <Layout />
+          </Auth>
+        </StaticRouter>
     </ApolloProvider>
   );
 

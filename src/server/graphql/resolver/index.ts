@@ -1,3 +1,5 @@
+import { GraphQLContext } from "..";
+
 // FIXME
 const mockCategories = (params : { first?: number, after?: string }) => {
   const { after, first } = params;
@@ -29,6 +31,40 @@ const User = {
   }
 };
 
+export const viewer = async (
+  parent: any,
+  args: {},
+  ctx: GraphQLContext
+) => {
+  return ctx.viewer;
+};
+
+export const signIn = async (
+  parent: any,
+  args: {
+    name: string;
+    password: string;
+  },
+  ctx: GraphQLContext
+) => {
+  const user = {
+    id: 2,
+    name: 'demo'
+  };
+  await ctx.signIn(user);
+  return user;
+};
+
+export const signOut = async (
+  parent: any,
+  args: {},
+  ctx: GraphQLContext
+) => {
+  const viewer = ctx.viewer;
+  ctx.signOut();
+  return viewer;
+};
+
 export const getUser = async (
   parent: any,
   args: {
@@ -44,6 +80,11 @@ export const getUser = async (
 export const resolvers = {
   User,
   Query: {
-    getUser
+    getUser,
+    viewer
+  },
+  Mutation: {
+    signIn,
+    signOut
   },
 };
