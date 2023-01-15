@@ -74,8 +74,6 @@ export function AuthProvider(props: PropsWithChildren<AuthProviderProps>) {
   };
   return (
     <AuthContext.Provider value={contextValue}>
-      {error ? <p>{error.message}</p> : null}
-      {loading ? <p>loading</p> : <p>loading</p>}
       {props.children}
     </AuthContext.Provider>
   );
